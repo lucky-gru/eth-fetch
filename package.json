@@ -2,12 +2,9 @@
   "name": "eth-fetch",
   "version": "1.0.0",
   "description": "Javascript module to fetch wallet info with ETH, ERC20 tokens, and transactions",
-  "main": "bin/index.js",
+  "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "bin": {
-    "hello": "./bin/index.js"
   },
   "repository": {
     "type": "git",
