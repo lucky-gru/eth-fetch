@@ -110,30 +110,35 @@ const getTransactions = async (address) => {
 };
 
 const getInfo = async (address) => {
-  const res = await Promise.all([
-    getEther(address),
-    getTokenBalances(address),
-    getTransactions(address),
-    getEtherPrice("usd"),
-  ]);
-
-  const pricePromises = res[1].map((token) =>
-    getTokenPrice("ethereum", token.address, "usd")
-  );
-  const tokenPrices = await Promise.all(pricePromises);
-  const positions = res[1].map((token, index) => {
+  try {
+    const res = await Promise.all([
+      getEther(address),
+      getTokenBalances(address),
+      getTransactions(address),
+      getEtherPrice("usd"),
+    ]);
+  
+    const pricePromises = res[1].map((token) =>
+      getTokenPrice("ethereum", token.address, "usd")
+    );
+    const tokenPrices = await Promise.all(pricePromises);
+    const positions = res[1].map((token, index) => {
+      return {
+        ...token,
+        usd: (Number(token.quantity) * tokenPrices[index]).toString(),
+      };
+    });
+  
     return {
-      ...token,
-      usd: (Number(token.quantity) * tokenPrices[index]).toString(),
-    };
-  });
-
-  return {
-    balance: res[0],
-    usd: (Number(res[0]) * res[3]).toString(),
-    positions: positions,
-    transactions: res[2],
-  };
+      balance: res[0],
+      usd: (Number(res[0]) * res[3]).toString(),
+      positions: positions,
+      transactions: res[2],
+    };  
+  } catch(err) {
+    console.log(err);
+    throw err;
+  }
 };
 
 module.exports = {

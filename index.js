@@ -1,5 +1,5 @@
-const fetcher = require("./fetcher");
 const parseArgs = require('minimist')
+const fetcher = require("./fetcher");
 
 const args = parseArgs(process.argv.slice(2), { string: "wallet"});
 
