@@ -124,13 +124,13 @@ const getInfo = async (address) => {
   const positions = res[1].map((token, index) => {
     return {
       ...token,
-      usd: Number(token.quantity) * tokenPrices[index],
+      usd: (Number(token.quantity) * tokenPrices[index]).toString(),
     };
   });
 
   return {
     balance: res[0],
-    usd: Number(res[0]) * res[3],
+    usd: (Number(res[0]) * res[3]).toString(),
     positions: positions,
     transactions: res[2],
   };
